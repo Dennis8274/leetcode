@@ -21,31 +21,24 @@ public class MergeTwoOrderedList {
         if (first == null) return second;
         if (second == null) return first;
 
-        Node head;
-        if (first.value < second.value) {
-            head = first;
-            first = first.next;
-        } else {
-            head = second;
-            second = second.next;
-        }
-        Node cur = head;
+        Node head = new Node(-1);
+        Node dummy = head;
         while (first != null && second != null) {
-            Node node;
-            if (first.value < second.value) {
-                node = first;
+            if (first.value <= second.value) {
+                dummy.next = first;
                 first = first.next;
             } else {
-                node = second;
+                dummy.next = second;
                 second = second.next;
             }
-            cur.next = node;
-            cur = node;
+            dummy = dummy.next;
         }
-        if (first != null) cur.next = first;
-        else cur.next = second;
-
-        return head;
+        if (first != null) {
+            dummy.next = first;
+        } else {
+            dummy.next = second;
+        }
+        return head.next;
     }
 
     private static void print(Node node) {

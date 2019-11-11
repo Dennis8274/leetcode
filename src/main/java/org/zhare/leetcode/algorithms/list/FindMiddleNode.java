@@ -8,7 +8,7 @@ public class FindMiddleNode {
     private static Node head;
 
     public static void main(String[] args) {
-        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         head = build(values);
         print(head);
         Node mid = findMiddleNode(head);
@@ -18,11 +18,10 @@ public class FindMiddleNode {
     private static Node findMiddleNode(Node head) {
         Node slow = head;
         Node fast = slow;
-        while (fast.next != null && fast.next.next != null) {
+        while (fast != null && fast.next != null && fast.next.next != null) {
             slow = slow.next;
             fast = fast.next.next;
         }
-
         return slow;
     }
 

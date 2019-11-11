@@ -9,45 +9,41 @@ public class ReverseList {
     private static Node head;
 
     public static void main(String[] args) {
-        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
-        head = build(values);
-        print(head);
-        head = reverse2(head);
+        int[] vales = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        head = build(vales);
         print(head);
         head = reverse(head);
         print(head);
-
+        head = reverse2(head);
+        print(head);
     }
 
-    private static Node reverse2(Node first) {
-        if (first == null) return null;
-        if (first.next == null) return first;
+    private static Node reverse(Node head) {
         Node prev = null;
-        Node cur = first;
-        while (cur.next != null) {
+        Node cur = head;
+        while (cur != null) {
             Node next = cur.next;
             cur.next = prev;
-
             prev = cur;
             cur = next;
         }
 
-        cur.next = prev;
-
-        return cur;
+        return prev;
     }
 
-    private static Node reverse(Node node) {
-        if (node == null) return null;
-        if (node.next == null) return node;
-        Node head = reverse(node.next);
-        Node next = node.next;
-        next.next = node;
-        node.next = null;
-        return head;
+    private static Node reverse2(Node head) {
+        if (head == null) return null;
+        if (head.next == null) return head;
+        Node node = reverse2(head.next);
+        Node next = head.next;
+        next.next = head;
+        head.next = null;
+
+        return node;
     }
 
     private static void print(Node head) {
+        if (head == null) return;
         Node cur = head;
         while (cur != null) {
             System.out.print(cur.value + " ");

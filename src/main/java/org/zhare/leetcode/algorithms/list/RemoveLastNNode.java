@@ -15,7 +15,7 @@ public class RemoveLastNNode {
     private static Node head;
 
     public static void main(String[] args) {
-        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         head = build(values);
         print(head);
         head = removeLastN(head, 5);
@@ -25,15 +25,11 @@ public class RemoveLastNNode {
     private static Node removeLastN(Node head, int n) {
         Node slow = head;
         Node fast = slow;
-        while (fast != null && n > 0) {
+        while (n > 0 && fast != null) {
+            fast = fast.next;
             n--;
-            fast = fast.next;   // index is (n+1)th node
         }
-
-        if (fast == null) {
-            head = head.next;
-            return head;
-        }
+        if (fast == null) return head.next;
 
         while (fast.next != null) {
             slow = slow.next;
@@ -41,9 +37,7 @@ public class RemoveLastNNode {
         }
 
         slow.next = slow.next.next;
-
         return head;
-
     }
 
     private static void print(Node head) {

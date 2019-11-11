@@ -31,11 +31,11 @@ public class DetectCycleList {
 
     private static boolean detect(Node head) {
         if (head == null) return false;
-        Node node = head;
-        while (node.next != null && node.next != head) {
-            node = node.next;
+        Node cur = head;
+        while (cur.next != null && cur.next != head) {
+            cur = cur.next;
         }
-        return node.next != null;
+        return cur.next != null;
     }
 
     private static Node buildCycleList(int[] values) {

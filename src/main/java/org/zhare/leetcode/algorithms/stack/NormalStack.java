@@ -1,7 +1,5 @@
 package org.zhare.leetcode.algorithms.stack;
 
-import java.util.Stack;
-
 /**
  * @author dennis
  * @since 2019/11/11

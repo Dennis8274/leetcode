@@ -15,6 +15,8 @@ public class MergeSort {
     * 时间复杂度：O(nlogn) 最好 最坏 平均
     * 空间复杂度：O(n)
     *
+    * 与快排区别：由下而上，先处理子问题，再合并
+    *
     * */
 
     public static void main(String[] args) {

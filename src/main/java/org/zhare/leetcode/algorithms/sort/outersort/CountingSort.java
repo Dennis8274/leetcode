@@ -12,6 +12,7 @@ public class CountingSort {
      *
      * 线性排序 时间复杂度 O(n)
      *
+     * 数据要求：数据范围小
      * 桶排序的一种特殊情况
      * */
 

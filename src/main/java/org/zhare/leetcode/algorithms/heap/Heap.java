@@ -116,10 +116,4 @@ public class Heap {
 
         values[k] = value;
     }
-
-    private static void swap(int[] values, int i, int j) {
-        int temp = values[i];
-        values[j] = temp;
-        values[i] = temp;
-    }
 }

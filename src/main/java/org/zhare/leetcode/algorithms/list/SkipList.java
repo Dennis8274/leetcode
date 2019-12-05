@@ -61,20 +61,18 @@ public class SkipList {
         int level = maxLevel;
         Node node = head;
 
-        Node[] predecessors = new Node[level];
         // find every predecessor
         for (int i = level - 1; i >= 0; --i) {
             while (node.forwards[i] != null && node.forwards[i].val < value) {
                 node = node.forwards[i];
             }
-            predecessors[i] = node;
         }
 
         // update
         if (node.forwards[0] != null && node.forwards[0].val == value) {
             // should update every level
             for (int i = level - 1; i >= 0; --i) {
-                if (node.forwards[i] != null && node.forwards[i].val == value) // if it is del node ,and rm this node in this level
+                if (node.forwards[i] != null && node.forwards[i].val == value) // if it is del-node ,then rm this node in this level
                     node.forwards[i] = node.forwards[i].forwards[i];
             }
         }

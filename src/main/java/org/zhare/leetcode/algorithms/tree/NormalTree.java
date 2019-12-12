@@ -13,29 +13,84 @@ public class NormalTree {
     private static Node root;
 
     public static void main(String[] args) {
-        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
         root = build(values);
         printTree(root);
-        System.out.println("===========");
-        preOrder(root);
-        System.out.println();
-        System.out.println("===========");
-        nonRecursivePreOrder(root);
-        System.out.println();
-        System.out.println("===========");
-        inOrder(root);
-        System.out.println();
-        System.out.println("===========");
-        nonRecursiveInOrder(root);
-        System.out.println();
-        System.out.println("===========");
-        mirrorsInOrder(root);
+//        System.out.println("===========");
+//        preOrder(root);
+//        System.out.println();
+//        System.out.println("===========");
+//        nonRecursivePreOrder(root);
+//        System.out.println();
+//        System.out.println("===========");
+//        inOrder(root);
+//        System.out.println();
+//        System.out.println("===========");
+//        nonRecursiveInOrder(root);
+//        System.out.println();
+//        System.out.println("===========");
+//        mirrorsInOrder(root);
 
-        System.out.println();
-        int[] preOrder = new int[]{1, 2, 4, 8, 5, 3, 6, 7};
-        int[] inOrder = new int[]{8, 4, 2, 5, 1, 6, 3, 7};
-        Node node = buildTree(preOrder, inOrder);
-        nonRecursiveInOrder(node);
+//        System.out.println();
+//        int[] preOrder = new int[]{1, 2, 4, 8, 5, 3, 6, 7};
+//        int[] inOrder = new int[]{8, 4, 2, 5, 1, 6, 3, 7};
+//        Node node = buildTree(preOrder, inOrder);
+//        nonRecursiveInOrder(node);
+
+        System.out.println("========");
+        int maxDepth = maxDepth(root);
+        System.out.println("max depth is " + maxDepth);
+        int minDepth = minDepth(root);
+        System.out.println("min depth is " + minDepth);
+        int nodeNums = nodeNums(root);
+        System.out.println("node nums is " + nodeNums);
+        int leafNums = leafNums(root);
+        System.out.println("leaf nums is " + leafNums);
+        int nodeNumsOnKthLevel = nodeNumsOnKthLevel(root, 4);
+        System.out.println("node nums on kth level is " + nodeNumsOnKthLevel);
+    }
+
+    private static int maxDepth(Node root) {
+        if (root == null) return 0;
+        int left = maxDepth(root.left);
+        int right = maxDepth(root.right);
+        return 1 + Math.max(left, right);
+    }
+
+    private static int minDepth(Node root) {
+        if (root == null) return 0;
+        return getMin(root);
+    }
+
+    private static int getMin(Node root) {
+        if (root == null) return Integer.MAX_VALUE;
+        if (root.left == null && root.right == null) return 1;
+        return Math.min(getMin(root.left), getMin(root.right)) + 1;
+    }
+
+    private static int nodeNums(Node root) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
+        return nodeNums(root.left) + nodeNums(root.right) + 1;
+    }
+
+    private static int leafNums(Node root) {
+        if (root == null) return 1;
+        return getLeafNums(root);
+    }
+
+    private static int getLeafNums(Node root) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null) return 1;
+        return getLeafNums(root.left) + getLeafNums(root.right);
+    }
+
+    private static int nodeNumsOnKthLevel(Node root, int k) {
+        if (root == null || k < 1) return 0;
+        if (k == 1) return 1;
+        int left = nodeNumsOnKthLevel(root.left, k - 1);
+        int right = nodeNumsOnKthLevel(root.right, k - 1);
+        return left + right;
     }
 
     private static Node buildTree(int[] preOrder, int[] inOrder) {

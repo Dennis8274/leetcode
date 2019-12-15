@@ -48,6 +48,67 @@ public class NormalTree {
         System.out.println("leaf nums is " + leafNums);
         int nodeNumsOnKthLevel = nodeNumsOnKthLevel(root, 4);
         System.out.println("node nums on kth level is " + nodeNumsOnKthLevel);
+        boolean isBalanced = isBalanced(root);
+        System.out.println("whether balanced tree: " + isBalanced);
+        boolean isCompleteBinaryTree = isCompleteBinaryTree(root);
+        System.out.println("whether complete binary tree: " + isCompleteBinaryTree);
+        boolean isCompletelySame = isCompletelySameTree(root, root);
+        System.out.println("whether completely same tree: " + isCompletelySame);
+        Node mirrorRoot = build(new int[]{1, 2, 2, 3, 4, 4, 3});
+        boolean isMirror = isMirror(mirrorRoot.left, mirrorRoot.right);
+        System.out.println("whether mirror: " + isMirror);
+        Node toMirror = build(new int[]{1, 2, 3, 4, 5, 6});
+        printTree(toMirror);
+        Node mirrorOf = mirrorOfNode(toMirror);
+        printTree(mirrorOf);
+    }
+
+    private static Node mirrorOfNode(Node root) {
+        if (root == null) return null;
+        if (root.left == null && root.right == null) return root;
+        Node left = mirrorOfNode(root.left);
+        Node right = mirrorOfNode(root.right);
+        root.right = left;
+        root.left = right;
+        return root;
+    }
+
+    private static boolean isMirror(Node n1, Node n2) {
+        if (n1 == null && n2 == null) return true;
+        else if (n1 == null || n2 == null) return false;
+        if (n1.val != n2.val) return false;
+        boolean leftMirror = isMirror(n1.left, n2.right);
+        boolean rightMirror = isMirror(n1.right, n2.left);
+        return leftMirror && rightMirror;
+    }
+
+    private static boolean isCompletelySameTree(Node n1, Node n2) {
+        if (n1 == null && n2 == null) return true;
+        else if (n1 == null || n2 == null) return false;
+        if (n1.val != n2.val) return false;
+        boolean sameLeft = isCompletelySameTree(n1.left, n2.left);
+        boolean sameRight = isCompletelySameTree(n1.right, n2.right);
+        return sameLeft && sameRight;
+    }
+
+    private static boolean isCompleteBinaryTree(Node root) {
+        if (root == null) return true;
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
+        boolean hasChild = true;
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            if (!hasChild && (node.left != null || node.right != null)) return false;
+
+            if (node.right == null) {
+                hasChild = false;
+            } else if (node.left == null) return false;
+
+            if (node.left != null) queue.add(node.left);
+            if (node.right != null) queue.add(node.right);
+        }
+
+        return true;
     }
 
     private static int maxDepth(Node root) {
@@ -55,6 +116,20 @@ public class NormalTree {
         int left = maxDepth(root.left);
         int right = maxDepth(root.right);
         return 1 + Math.max(left, right);
+    }
+
+    private static boolean isBalanced(Node root) {
+        return maxBalancedDepth(root) != -1;
+    }
+
+    private static int maxBalancedDepth(Node root) {
+        if (root == null) return 0;
+        int left = maxBalancedDepth(root.left);
+        int right = maxBalancedDepth(root.right);
+        if (left == -1 || right == -1 || Math.abs(left - right) > 1) {
+            return -1;
+        }
+        return Math.max(left, right);
     }
 
     private static int minDepth(Node root) {

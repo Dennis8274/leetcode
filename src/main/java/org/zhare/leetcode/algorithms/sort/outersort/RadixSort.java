@@ -1,4 +1,4 @@
-package org.zhare.leetcode.struct.sort.outersort;
+package org.zhare.leetcode.algorithms.sort.outersort;
 
 /**
  * @author dennis

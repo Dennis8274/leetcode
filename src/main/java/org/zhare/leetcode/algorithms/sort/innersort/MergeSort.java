@@ -1,4 +1,4 @@
-package org.zhare.leetcode.struct.sort.innersort;
+package org.zhare.leetcode.algorithms.sort.innersort;
 
 import java.util.Arrays;
 

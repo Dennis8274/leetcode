@@ -1,8 +1,6 @@
 package org.zhare.leetcode.algorithms.tree;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author dennis
@@ -13,7 +11,7 @@ public class NormalTree {
     private static Node root;
 
     public static void main(String[] args) {
-        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16};
+        int[] values = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9};
         root = build(values);
         printTree(root);
 //        System.out.println("===========");
@@ -30,6 +28,12 @@ public class NormalTree {
 //        System.out.println();
 //        System.out.println("===========");
 //        mirrorsInOrder(root);
+        nonRecursivePostOrder(root);
+        System.out.println();
+
+        nonRecursivePreOrder2(root);
+        System.out.println();
+        nonRecursiveInOrder2(root);
 
 //        System.out.println();
 //        int[] preOrder = new int[]{1, 2, 4, 8, 5, 3, 6, 7};
@@ -37,30 +41,30 @@ public class NormalTree {
 //        Node node = buildTree(preOrder, inOrder);
 //        nonRecursiveInOrder(node);
 
-        System.out.println("========");
-        int maxDepth = maxDepth(root);
-        System.out.println("max depth is " + maxDepth);
-        int minDepth = minDepth(root);
-        System.out.println("min depth is " + minDepth);
-        int nodeNums = nodeNums(root);
-        System.out.println("node nums is " + nodeNums);
-        int leafNums = leafNums(root);
-        System.out.println("leaf nums is " + leafNums);
-        int nodeNumsOnKthLevel = nodeNumsOnKthLevel(root, 4);
-        System.out.println("node nums on kth level is " + nodeNumsOnKthLevel);
-        boolean isBalanced = isBalanced(root);
-        System.out.println("whether balanced tree: " + isBalanced);
-        boolean isCompleteBinaryTree = isCompleteBinaryTree(root);
-        System.out.println("whether complete binary tree: " + isCompleteBinaryTree);
-        boolean isCompletelySame = isCompletelySameTree(root, root);
-        System.out.println("whether completely same tree: " + isCompletelySame);
-        Node mirrorRoot = build(new int[]{1, 2, 2, 3, 4, 4, 3});
-        boolean isMirror = isMirror(mirrorRoot.left, mirrorRoot.right);
-        System.out.println("whether mirror: " + isMirror);
-        Node toMirror = build(new int[]{1, 2, 3, 4, 5, 6});
-        printTree(toMirror);
-        Node mirrorOf = mirrorOfNode(toMirror);
-        printTree(mirrorOf);
+//        System.out.println("========");
+//        int maxDepth = maxDepth(root);
+//        System.out.println("max depth is " + maxDepth);
+//        int minDepth = minDepth(root);
+//        System.out.println("min depth is " + minDepth);
+//        int nodeNums = nodeNums(root);
+//        System.out.println("node nums is " + nodeNums);
+//        int leafNums = leafNums(root);
+//        System.out.println("leaf nums is " + leafNums);
+//        int nodeNumsOnKthLevel = nodeNumsOnKthLevel(root, 4);
+//        System.out.println("node nums on kth level is " + nodeNumsOnKthLevel);
+//        boolean isBalanced = isBalanced(root);
+//        System.out.println("whether balanced tree: " + isBalanced);
+//        boolean isCompleteBinaryTree = isCompleteBinaryTree(root);
+//        System.out.println("whether complete binary tree: " + isCompleteBinaryTree);
+//        boolean isCompletelySame = isCompletelySameTree(root, root);
+//        System.out.println("whether completely same tree: " + isCompletelySame);
+//        Node mirrorRoot = build(new int[]{1, 2, 2, 3, 4, 4, 3});
+//        boolean isMirror = isMirror(mirrorRoot.left, mirrorRoot.right);
+//        System.out.println("whether mirror: " + isMirror);
+//        Node toMirror = build(new int[]{1, 2, 3, 4, 5, 6});
+//        printTree(toMirror);
+//        Node mirrorOf = mirrorOfNode(toMirror);
+//        printTree(mirrorOf);
     }
 
     private static Node mirrorOfNode(Node root) {
@@ -210,18 +214,36 @@ public class NormalTree {
     }
 
     private static void nonRecursiveInOrder(Node root) {
-        if (root == null) return;
         Stack<Node> stack = new Stack<>();
-        Node cur = root;
-        while (cur != null || !stack.isEmpty()) {
-            if (cur != null) {
-                stack.push(cur);
-                cur = cur.left;
-            } else {
-                cur = stack.pop();
-                System.out.print(cur.val + " ");
-                cur = cur.right;
+        Node current = root;
+        while (current != null || !stack.isEmpty()) {
+            while (current != null) {
+                stack.add(current);
+                current = current.left;
             }
+
+            Node node = stack.pop();
+            System.out.print(node.val + " ");
+            current = node.right;
+        }
+    }
+
+    private static void nonRecursiveInOrder2(Node root) {
+        Stack<Node> stack = new Stack<>();
+        List<Node> result = new ArrayList<>();
+        Node current = root;
+        while (current != null || !stack.isEmpty()) {
+            if (current != null) {
+                stack.add(current);
+                current = current.left;
+            } else {
+                current = stack.pop();
+                result.add(current);
+                current = current.right;
+            }
+        }
+        for (Node node : result) {
+            System.out.print(node.val + " ");
         }
     }
 
@@ -272,6 +294,54 @@ public class NormalTree {
             if (cur.right != null) stack.add(cur.right);
             if (cur.left != null) stack.add(cur.left);
         }
+    }
+
+    private static void nonRecursivePreOrder2(Node root) {
+        if (root == null) return;
+        Stack<Node> stack = new Stack<>();
+        List<Node> result = new ArrayList<>();
+        Node current = root;
+        while (current != null || !stack.isEmpty()) {
+            if (current != null) {
+                result.add(current);
+                stack.add(current);
+                current = current.left;
+            } else {
+                current = stack.pop();
+                current = current.right;
+            }
+        }
+        for (Node node : result) {
+            System.out.print(node.val + " ");
+        }
+    }
+
+    private static void nonRecursivePostOrder(Node root) {
+        if (root == null) return;
+        Stack<Node> stack = new Stack<>();
+        Stack<Node> output = new Stack<>();
+        Node current = root;
+        while (current != null || !stack.isEmpty()) {
+            if (current != null) {
+                stack.add(current);
+                output.add(current);
+                current = current.right;
+            } else {
+                current = stack.pop();
+                current = current.left;
+            }
+        }
+
+        while (!output.isEmpty()) {
+            System.out.print(output.pop().val + " ");
+        }
+    }
+
+    private static void postOrder(Node root) {
+        if (root == null) return;
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.val + " ");
     }
 
     private static void inOrder(Node root) {

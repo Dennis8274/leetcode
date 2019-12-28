@@ -26,8 +26,8 @@ public class TwoZeroSix {
     private static ListNode reverse(ListNode root) {
         if (root == null) return null;
         ListNode pre = null;
-        ListNode next = null;
         ListNode cur = root;
+        ListNode next;
         while (cur != null) {
             next = cur.next;
             cur.next = pre;
@@ -69,15 +69,6 @@ public class TwoZeroSix {
             cur = cur.next;
         }
         System.out.println();
-    }
-
-    public static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-        }
     }
 
 }
